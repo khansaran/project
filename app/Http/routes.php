@@ -114,10 +114,10 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('admin/article/delete/{menu_id}', 'ArticleController@getDelete')->middleware('admin');
         Route::post('admin/article/update/{menu_id}', 'ArticleController@updateData')->middleware('admin');
 		//////////////////////////////////// Image Product ////////////////////////////
-        Route::get('admin/imageproducts/add', 'ImageProductController@FormAdd')->middleware('admin');
-        Route::get('admin/imageproducts', 'ImageProductController@getData')->middleware('admin');
-        Route::post('admin/imageproducts/insert', 'ImageProductController@addData')->middleware('admin');
-        Route::get('admin/imageproducts/{id}', 'ImageProductController@getEdit')->middleware('admin');
-        Route::get('admin/imageproducts/delete/{id}', 'ImageProductController@getDelete')->middleware('admin');
-        Route::post('admin/imageproducts/update/{id}', 'ImageProductController@updateData')->middleware('admin');
+        Route::get('admin/imageproduct/add', 'ImageProductController@FormAdd')->middleware('admin');
+        Route::get('admin/imageproduct', 'ImageProductController@getData')->middleware('admin');
+        Route::post('admin/imageproduct/insert', 'ImageProductController@addData')->middleware('admin');
+        Route::get('admin/imageproduct/{id}', 'ImageProductController@getEdit')->middleware('admin');
+        Route::get('admin/imageproduct/delete/{id}', 'ImageProductController@getDelete')->middleware('admin');
+        Route::post('admin/imageproduct/update/{id}', 'ImageProductController@updateData')->middleware('admin');
 });

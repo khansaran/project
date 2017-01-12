@@ -22,7 +22,7 @@ class BrandController extends Controller
     }
     public function getData()
     {
-	$model = DB::table('table_brands')->where('trush',0)->orderBy('ordering', 'asc')->paginate(10);
+	$model = DB::table('table_brands')->where('trush',0)->orderBy('ordering', 'asc')->get();
 	return view('admin.brand.index')->with('datashow',$model);
     }
     public function addData(Request $data)

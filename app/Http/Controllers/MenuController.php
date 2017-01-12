@@ -27,7 +27,8 @@ class MenuController extends Controller
     public function getCat()
     {
 	$datashow = DB::table('table_cats')->where('trush',0)->orderBy('ordering', 'asc')->get();
-	//$categories = $this->get_menu();
+	//$categories = $this->listCategory1();
+	//print_r($categories);exit;
 	//return view('admin.cat.index')->with('datashow',$model);
 	return view('admin.cat.index', compact('datashow'));
     }
@@ -119,32 +120,33 @@ class MenuController extends Controller
             return Redirect::to('/admin/cat')->with('message','លុបបានជោកជ័យ  !');		
 	}
 	
-	function get_menu($parent_id=0){
+	/*function get_menu($parent_id=0){
 
 	//$CI =& get_instance();
 
 	$query = DB::table('table_cats')->where('parent',$parent_id)->get();
 
-	if(count($query)>0){
+		if(count($query)>0){
 
-		echo '<tbody>';
+			echo '<tbody>';
 
-			foreach($query as $row){
+				foreach($query as $row){
 
-					echo '<tr class="current">';
+						echo '<tr class="current">';
 
-						echo '<td>'.$row->name_kh.'</td>';
+							echo '<td>'.$row->name_kh.'</td>';
 
-						$this->get_menu($row->cat_id);
+							$this->get_menu($row->cat_id);
 
-					echo '</tr>';
+						echo '</tr>';
 
-			}
+				}
 
-		echo '</tbody>';
+			echo '</tbody>';
 
-	}
+		}
 
-	}
+	}*/
+	
 }
 
