@@ -36,7 +36,7 @@
                             <div class="col-md-6">
                                <select name="parent" id="parent" class="validate[required] form-control select2">
                                 <option value="0"> - - - - - ជ្រើសរើសម៉ឺនុយ - - - - -   </option>
-                                   <?php foreach($model as $datas){ 
+                                   <?php foreach($datashow as $datas){ 
                                        if($datas->cat_id == $editdata->parent){
                                             $selected = " selected='selected'"; 
 					}else{
@@ -48,7 +48,7 @@
                                         <?php } ?>
                                            <?php foreach($model as $subcat){ ?>
                                             <?php if($subcat->parent !=0 && ($subcat->parent == $datas->cat_id)){ ?>
-                                             <option  value="<?php echo $subcat->cat_id;?>"> -- <?php echo $subcat->name_kh;?></option>
+                                             <option  <?php echo $selected; ?> value="<?php echo $subcat->cat_id;?>"> -- <?php echo $subcat->name_kh;?></option>
                                             <?php }?>
                                         <?php }?>
                                        

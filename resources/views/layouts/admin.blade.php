@@ -60,7 +60,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="{{Url('/')}}/dist/img/avatar5.png" class="user-image" alt="User Image">
-              <span class="hidden-xs"​​ style="font-family: Khmer OS Battambang,Khmer UI"> អ្នកប្រើប្រាស់</span>
+              <span class=""​​ style="font-family: Khmer OS Battambang,Khmer UI"> អ្នកប្រើប្រាស់</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -139,9 +139,15 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{Url('/')}}/admin/image/add" style="font-family: Khmer OS Battambang,Khmer UI;"><i class="fa fa-plus-circle"></i>បន្ថែម រូបភាពផលិតផល</a></li>
-            <li><a href="{{Url('/')}}/admin/image" style="font-family: Khmer OS Battambang,Khmer UI;"><i class="fa fa-eye"></i>  បង្ហាញរូបភាពផលិតផល</a></li>
+            <li><a href="{{Url('/')}}/admin/imageproduct/add" style="font-family: Khmer OS Battambang,Khmer UI;"><i class="fa fa-plus-circle"></i>បន្ថែម រូបភាពផលិតផល</a></li>
+            <li><a href="{{Url('/')}}/admin/imageproduct" style="font-family: Khmer OS Battambang,Khmer UI;"><i class="fa fa-eye"></i>  បង្ហាញរូបភាពផលិតផល</a></li>
           </ul>
+        </li>
+		<li class="treeview">
+          <a href="{{Url('/')}}/admin/user">
+            <i class="fa fa-user"></i>
+            <span style="font-family: Khmer OS Battambang,Khmer UI;"> អ្នកប្រើប្រាស់</span>
+          </a>
         </li>
       </ul>
     </section>
@@ -187,28 +193,182 @@
 <!-- page script -->
 <link rel="stylesheet" href="{{Url('/')}}/plugins/select2/select2.min.css">
 <script src="{{Url('/')}}/plugins/select2/select2.full.min.js"></script>
+<!--  Uplaod Imagee -->
+ <link href="{{Url('/')}}/upload/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+ <script src="{{Url('/')}}/upload/js/fileinput.js" type="text/javascript"></script>
+ <script src="{{Url('/')}}/upload/js/fileinput_locale_fr.js" type="text/javascript"></script>
+ <script src="{{Url('/')}}/upload/js/fileinput_locale_es.js" type="text/javascript"></script>
+ <script src="{{Url('/')}}/fastclick/lib/fastclick.js"></script>
 <!--LOADING SCRIPTS FOR PAGE--><!--CORE JAVASCRIPT-->
 <script src="{{Url('')}}/js/main.js"></script>
- <script src="{{Url('')}}/validationengine/js/jquery.validationEngine.js"></script>
-    <script src="{{Url('')}}/validationengine/js/languages/jquery.validationEngine-en.js"></script>
-    <script src="{{Url('')}}/jquery-validation-1.11.1/dist/jquery.validate.min.js"></script>
-    <script src="{{Url('')}}/jquery-validation-1.11.1/validationInit.js"></script>
-    <script>
-        $(function () { formValidation(); });
-        </script>
+<script src="{{Url('')}}/validationengine/js/jquery.validationEngine.js"></script>
+<script src="{{Url('')}}/validationengine/js/languages/jquery.validationEngine-en.js"></script>
+<script src="{{Url('')}}/jquery-validation-1.11.1/dist/jquery.validate.min.js"></script>
+<script src="{{Url('')}}/jquery-validation-1.11.1/validationInit.js"></script>
 <script>
-  $(function () {
-	$(".select2").select2();
-    $("#example1").DataTable();
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false
-    });
-  });
+	$(document).ready(function(){
+		$('#myTable').DataTable();
+		
+		
+	});
+   
+	$(function () {
+		$(".select2").select2();
+		$("#example1").DataTable();
+		$('#example2').DataTable({
+		  "paging": true,
+		  "lengthChange": false,
+		  "searching": false,
+		  "ordering": true,
+		  "info": true,
+		  "autoWidth": false
+		});
+	});
+	$(function () { formValidation(); });
+	initSample();
+	//////////////////////////// Code insert Cat //////////////////////
+	$("#cat_id").on('change',function(){
+		if($("#cat_id").val() == -1){
+			$("#myModal").modal("show");
+		}
+	});
+	$("#save_cat").on('click',function(e){
+		//alert();
+		e.preventDefault(e);
+		datafrm = $("#popup-validation").serialize();
+		//alert(datafrm);
+			$.ajax({
+				type:"POST",
+				url:'{{Url("/")}}/admin/imageproduct/insertcat',
+				data: datafrm,
+				dataType: 'json',
+				success: function(data){
+					//$("#cat_id").append("<option value='"+data.id+"'>".data.name+"</option>.");
+					//$('#cat_id').select2('val',data.id,);
+					//$('#myModal').modal('hide');
+					var ids = $("<option/>", {value: data.id, text: data.name});
+					$('#cat_id').append(ids);
+					$('#cat_id option[value="' + data.id + '"]').prop('selected',true);
+					$('#cat_id').trigger('change');
+					$('#myModal').modal('hide');
+					console.log(data);
+					
+				},
+				error: function(data){
+					
+				}
+			});
+			return false;
+	});
+//////////////////////// End ////////////////////'//////////////////////
+//////////////////////////// Code insert Brand //////////////////////
+	$("#brand_id").on('change',function(){
+		if($("#brand_id").val() == -1){
+			$("#ModalBrand").modal("show");
+		}
+	});
+	$("#save_brand").on('click',function(e){
+		//alert();
+		e.preventDefault(e);
+		datafrm = $("#frminsertbrand").serialize();
+		//alert(datafrm);
+			$.ajax({
+				type:"POST",
+				url:'{{Url("/")}}/admin/imageproduct/insertbrand',
+				data: datafrm,
+				dataType: 'json',
+				success: function(data){
+					//$("#cat_id").append("<option value='"+data.id+"'>".data.name+"</option>.");
+					//$('#cat_id').select2('val',data.id,);
+					//$('#myModal').modal('hide');
+					var ids = $("<option/>", {value: data.id, text: data.name});
+					$('#brand_id').append(ids);
+					$('#brand_id option[value="' + data.id + '"]').prop('selected',true);
+					$('#brand_id').trigger('change');
+					$('#ModalBrand').modal('hide');
+					console.log(data);
+					
+				},
+				error: function(data){
+					
+				}
+			});
+			return false;
+	});
+	//////////////////////// End ////////////////////'//////////////////////
+//////////////////////////// Code insert Brand //////////////////////
+	$("#save_tag").on('click',function(e){
+		//alert();
+		e.preventDefault(e);
+		datafrm = $("#tabimage").serialize();
+		//alert(datafrm);
+			$.ajax({
+				type:"POST",
+				url:'{{Url("/")}}/admin/imageproduct/inserttag',
+				data: datafrm,
+				dataType: 'json',
+				success: function(data){
+					//$("#cat_id").append("<option value='"+data.id+"'>".data.name+"</option>.");
+					//$('#cat_id').select2('val',data.id,);
+					//$('#myModal').modal('hide');
+					var ids = $("<option/>", {value: data.id, text: data.name});
+					$('#image_tag').append(ids);
+					$('#image_tag option[value="' + data.id + '"]').prop('selected',true);
+					$('#image_tag').trigger('change');
+					$('#MyTagImage').modal('hide');
+					console.log(data);
+					
+				},
+				error: function(data){
+					
+				}
+			});
+			return false;
+	});
+	//////////////////////// Delect Image in Image Product ////////////////////'//////////////////////delect_image
+	$("#delect_image").on('click',function(e){
+		e.preventDefault(e);
+		//datafrm = {'id':$('#image_idshow').val()};
+		var datafrm = $('#EditData').serialize();
+			$.ajax({
+				headers: {
+				 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				 },
+				method:"POST",
+				url:'{{Url("/")}}/admin/imageproduct/delectimagepros',
+				data: datafrm,
+				//dataType: 'json',
+				success: function(data){
+					$("#OneImageShow").empty();
+				},
+				error: function(data){
+					//alert(1);
+				}
+			});
+			return false;
+	});
+	function DeleteMulti(id){
+		alert(id);
+		//datafrm = {'id':$('#image_idshow').val()};
+		var datafrm = $('#EditData').serialize();
+			$.ajax({
+				headers: {
+				 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				 },
+				method:"POST",
+				url:'{{Url("/")}}/admin/imageproduct/delectimagemulti',
+				data: datafrm,
+				//dataType: 'json',
+				success: function(data){
+					$("#MultimageShow"+data.id).empty();
+				},
+				error: function(data){
+					//alert(1);
+				}
+			});
+			return false;
+	}
+	
 </script>
 </body>
 </html>

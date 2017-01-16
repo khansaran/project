@@ -11,6 +11,7 @@
       </ol>
 </section>
 <section class="content">
+
     <div class="row">
 		<div class="box">
             <div class="box-header">
@@ -62,12 +63,13 @@
 					 ?>	
 						  <td style="text-align: center;" ><?php echo $i++; ?></td>
 						  <td> |___<a href="<?php echo url('admin/cat');?>/<?php echo $sub->cat_id; ?>"> <?php echo $sub->name_kh; ?> </a> </td>
-						  <td style="text-align: center;"><?php if($datas->status==1){ echo '<button class="btn btn-primary btn-xs"><i class="fa fa-check "> </i> ប្រើប្រាស់  </button>';} 
+						  <td style="text-align: center;"><?php if($sub->status==1){ echo '<button class="btn btn-primary btn-xs"><i class="fa fa-check "> </i> ប្រើប្រាស់  </button>';} 
 							else{ echo '<button class="btn btn-danger btn-xs"><i class="fa fa-times btn-xs"> </i> មិនប្រើប្រាស់​  </button> '; } ?></td>
-						  <td><?php echo $datas->created_at; ?></td>
+						  <td><?php echo $sub->ordering; ?></td>
+						  <td><?php echo $sub->created_at; ?></td>
 						  <td>
-							<a style="font-family: Khmer OS Battambang,Khmer UI;"​ href="<?php echo url('admin/cat/delete');?>/<?php echo $datas->cat_id; ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"> </i> លុបចោល </a>
-							<a style="font-family: Khmer OS Battambang,Khmer UI;" href="<?php echo url('admin/cat');?>/<?php echo $datas->cat_id; ?>" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> កែប្រែ </a>
+							<a style="font-family: Khmer OS Battambang,Khmer UI;"​ href="<?php echo url('admin/cat/delete');?>/<?php echo $sub->cat_id; ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"> </i> លុបចោល </a>
+							<a style="font-family: Khmer OS Battambang,Khmer UI;" href="<?php echo url('admin/cat');?>/<?php echo $sub->cat_id; ?>" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> កែប្រែ </a>
 						  </td>
 						</tr>
 					<?php

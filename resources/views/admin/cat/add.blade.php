@@ -27,7 +27,7 @@
                 </div>
                 @endif
                 <div class="panel-body">
-                    {!! Form::open(array('url' => 'admin/cat/insert','enctype'=>'multipart/form-data','file'=>'true','class'=>'form-horizontal','id'=>'popup-validation')) !!}
+                    {!! Form::open(array('url' => 'admin/cat/insert','enctype'=>'multipart/form-data','file'=>'true','class'=>'form-horizontal dropzone','id'=>'popup-validation')) !!}
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="form-group{{ $errors->has('parent') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">ជ្រើសរើសម៉ឺនុយ  :</label>
