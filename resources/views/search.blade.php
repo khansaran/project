@@ -1,7 +1,6 @@
 @extends('layouts.front')
 
 @section('content')
-<form action="{{Url('/')}}/" method="POST" class="form-inline" id="SearchHomeTop">
 <div id="header" class="header">
     <div class="top-header">
         <div class="container">
@@ -17,27 +16,23 @@
                 <a href="{{Url('/')}}"><img alt="Kute shop - themelock.com" src="{{Url('/')}}/assets/images/logo.png" /></a>
             </div>
             <div class="col-xs-9 col-sm-9 header-search-box">
-				<div class="form-inline">    
+                <form action="{{Url('/')}}/search" method="POST" class="form-inline" id="SearchHomeTop">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}">
                       <div class="form-group form-category">
-                        <select class="select-category" name="catogery">
+                        <select class="select-category">
                             <option value=""> ម៉ឺនុយទាំងអស់</option>
-							<?php foreach($cat as $category){ 
-							if($category->cat_id == $catshowid OR $category->cat_id == $checked ){
-                                $selected = " selected='selected'"; 
-							}else{
-								$selected = ""; 
-							}?>
-								 <option <?php echo $selected; ?> value="<?php echo $category->cat_id; ?>"><?php echo $category->name_kh; ?> </option>
+							<?php foreach($cat as $category){ ?>
+								 <option value="<?php echo $category->cat_id; ?>"><?php echo $category->name_kh; ?> </option>
 							<?php } ?>
                         </select>
                       </div>
                       <div class="form-group input-serach">
-                        <input type="text" id="searchhome" value="<?php echo $search; ?>" name="searchhome" placeholder="Keyword here..." style="padding:9px;">
+                        <input type="text" id="searchhome" name="searchhome" placeholder="Keyword here..." style="padding:9px;">
                       </div> 
-                     <button type="submit" id="btnSearchHomeTopDes" class="pull-right btn-search"> ស្វែងរកផលិតផល  <i style="font-size:15px;" class="fa fa-search"> </i> </button>
-				</div>
+                      <button type="submit" id="btnSearchHomeTopDes" class="pull-right btn-search"> ស្វែងរកផលិតផល  <i style="font-size:15px;" class="fa fa-search"> </i> </button>
+                </form>
             </div>
+            
         </div>
     </div>
     <!-- END MANIN HEADER -->
@@ -61,18 +56,12 @@
                             <div class="layered_subtitle"> ម៉ឺនុយ</div>
                             <div class="layered-content">
                                 <ul class="check-box-list">								
-									<?php foreach($cat as $cate){ 
-										if($cate->cat_id == $checked){
-											$check="checked";
-										}else{
-											$check="";
-										}
-									?>
+									<?php foreach($cat as $cate){ ?>
 										<li>
-											<input type="checkbox" onclick='submit()' id="c<?php echo $cate->cat_id; ?>" name="check[]" value="<?php echo $cate->cat_id; ?>" <?php echo $check; ?> >
-											<label for="c<?php echo $cate->cat_id; ?>">
+											<input type="checkbox" id="c_<?php echo $cate->cat_id; ?>" name="cat_<?php echo $cate->name_kh; ?>" />
+											<label for="c1">
 											<span class="button"></span>
-											<?php echo $cate->name_kh; ?> <span class="count"></span>
+											<?php echo $cate->name_kh; ?> <span class="count"><?php echo $cate->cat_id; ?></span>
 											</label>
 										</li>
 									<?php } ?>
@@ -83,27 +72,11 @@
                             <div class="layered_subtitle">តម្លៃ</div>
                             <div class="layered-content slider-range">
                                 
-                                <div data-label-reasult="Range:" data-min="0" data-max="10000000" data-unit="$" class="slider-range-price" data-value-min="0" data-value-max="10000000"></div>
-                                <div class="amount-range-price" >Range: $0 - $1000000 </div>
+                                <div data-label-reasult="Range:" data-min="50" data-max="10000000" data-unit="$" class="slider-range-price" data-value-min="50" data-value-max="10000000"></div>
+                                <div class="amount-range-price">Range: $50 - $10000000</div>
                             </div>
-							
-							<input type="hidden" id="from" name="from" value="">
-							<input type="hidden"  id="to" name="to" value="">
                             <!-- ./filter price -->
-                           <div class="layered_subtitle"> សំគាល់</div>
-                            <div class="layered-content">
-                                <ul class="check-box-list">								
-									<?php foreach($tag as $tags){ ?>
-										<li>
-											<input type="checkbox" id="tag<?php echo $tags->id; ?>" name="tag<?php echo $tags->id; ?>" />
-											<label for="tag<?php echo $tags->id; ?>">
-											<span class="button"></span>
-											<?php echo $tags->name; ?> <span class="count"></span>
-											</label>
-										</li>
-									<?php } ?>
-                                </ul>
-                            </div> 
+                            
                             
                         </div>
                         <!-- ./layered -->
@@ -131,14 +104,14 @@
 							if($cate->parent == 0){
 						?>
 						<li>
-                            <a href="{{Url('/')}}/id/<?php echo $cate->cat_id; ?>"><?php echo $cate->name_kh; ?></a>
+                            <a href="#"><?php echo $cate->name_kh; ?></a>
                         </li>
 						<?php } } ?>
                     </ul>
                 </div>
                 <!-- ./subcategories -->
                 <!-- view-product-list-->
-                <div id="view-product-list" class="view-product-list" id="load" style="position: relative;">
+                <div id="view-product-list" class="view-product-list">
                     <h5 class="page-heading">
 						ផលិតផលទាំងអស់
                     </h5>
@@ -152,7 +125,7 @@
                     </ul>
                     <!-- PRODUCT LIST -->
                     <ul class="row product-list grid">
-						<?php  foreach($image as $dataimage){ 	?>
+						<?php  foreach($image as $dataimage){ ?>
                         <li class="col-sx-12 col-sm-3">
                             <div class="product-container">
                                 <div class="left-block" onclick="ClickShwoImage1123(<?php echo $dataimage->id;?>)" >
@@ -182,13 +155,6 @@
                             </div>
                         </li> 
 					    <?php } ?>
-						<?php if($image ==null){ ?>
-							 <li class="col-sx-12 col-sm-3">
-								<div class="right-block">
-                                    <h5 class="product-name"><a href="{{Url('/')}}"​ style="color:red;"> ការស្វែងរកមិនមានលទ្ធផល​ ? </a></h5>
-								</div>
-							 </li>
-						<?php } ?>
                     </ul>
                     <!-- ./PRODUCT LIST -->
                 </div>
@@ -196,8 +162,7 @@
                 <div class="sortPagiBar">
                     <div class="bottom-pagination">
                         <nav>
-						{{ $image->links() }}
-                          <!--<ul class="pagination">
+                          <ul class="pagination">
                             <li class="active"><a href="#">1</a></li>
                             <li><a href="#">2</a></li>
                             <li><a href="#">3</a></li>
@@ -208,16 +173,25 @@
                                 <span aria-hidden="true">Next &raquo;</span>
                               </a>
                             </li>
-                          </ul>-->
+                          </ul>
                         </nav>
                     </div>
                     <div class="show-product-item">
-                        <select name="rowdata" onchange="this.form.submit()">
-                            <option <?php if ($page==20) echo 'selected="selected"';?> value="20">បង្ហាញ 20</option>
-                            <option <?php if ($page==50) echo 'selected="selected"';?> value="50">បង្ហាញ 50</option>
-                            <option <?php if ($page==100) echo 'selected="selected"';?> value="100">បង្ហាញ 100</option>
-							<option <?php if ($page==1000000000) echo 'selected="selected"';?> value="all">បង្ហាញទាំងអស់</option>
+                        <select name="">
+                            <option value="">Show 18</option>
+                            <option value="">Show 20</option>
+                            <option value="">Show 50</option>
+                            <option value="">Show 100</option>
                         </select>
+                    </div>
+                    <div class="sort-product">
+                        <select>
+                            <option value="">Product Name</option>
+                            <option value="">Price</option>
+                        </select>
+                        <div class="sort-product-icon">
+                            <i class="fa fa-sort-alpha-asc"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -226,5 +200,4 @@
         <!-- ./row-->
     </div>
 </div>
-</form>
 @endsection

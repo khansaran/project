@@ -1,55 +1,61 @@
 @extends('layouts.admin')
 
 @section('content')
-<style>
-    
-</style>
-<div class="col-lg-12">
-    <div id="tableadvancedTabContent" class="tab-content">
-        <div id="table-sorter-tab" class="tab-pane fade active in">
-            <div class="row">
-                <div class="col-lg-12"><h3 class="mtn" style="padding-left: 20px;"> {{ trans('translate.CATEGORY') }} </h3>
-                      @if(Session::has('message'))
+<section class="content-header">
+      <h1>
+        អ្នកប្រើប្រាស់
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="{{Url('/')}}/admin/home" style="font-family: Khmer OS Battambang,Khmer UI;"><i class="fa fa-dashboard"></i>  ទំព័រដើម</a></li>
+        <li class="active"> ឈ្មោះអ្នកប្រើប្រាស់</li> 
+      </ol>
+</section>
+<section class="content">
+    <div class="row">
+		<div class="box">
+            <div class="box-header">
+
+              <h3 class="box-title"> តារាបបង្ហាញឈ្មអ្នកប្រើប្រាស់</h3>
+				@if(Session::has('message'))
                       <div class="breadLine" style="text-align: center; margin-top: -26px;">
                     <i class="fa fa-save"> </i> <span style="color:green">{!!Session::get('message')!!} </span>
                     </div>
-                    @endif
-                    <span style="float:right;margin-top: -45px; margin-bottom: 10px;">
+                @endif
+				<span style="float:right;margin-bottom: 10px;">
                            <a href="{{ url('/admin/user/add') }}">
                                <button class="btn btn-warning" type="button" name="save"  value="3">
-                                   <i id="addplush" class="fa fa-plus-square-o"> </i> {{ trans('translate.ADD_NEW') }} </button></a>
-                    </span>
-                <table class="table table-hover table-striped table-bordered table-advanced tablesorter">
-                    <thead>
-                        <tr style="text-align: center;">
-                            <th width="5%" style="text-align: center;">ID</th>
-                            <th width="25%"> {{ trans('translate.USER') }}</th>
-                            <th width="10%"> {{ trans('translate.EMAIL') }}</th>
-                            <th width="15%"> {{ trans('translate.CREATE_DATE') }}</th>
-                            <th width="5%"> {{ trans('translate.ACTION') }}</th>  									
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $i =1; ?>
-				<?php foreach($datashow as $datas){ ?>
-                                <tr>  
-                                    <td style="text-align: center;" ><?php echo $i++; ?></td>
-                                    <td><?php echo $datas->username; ?></td>
-                                    <td><?php echo $datas->email; ?></td>
-                                    <td><?php echo $datas->created_at; ?></td>
-                                    <td>
-                                        <a href="<?php echo url('admin/user/delete');?>/<?php echo $datas->id; ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> </a>
-                                        <a href="<?php echo url('admin/user');?>/<?php echo $datas->id; ?>" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> </a>
-                                    </td>
-                                 </tr> 
-                                   
-                            <?php } ?>           
-                    </tbody>
-                </table>
-                </div>
-                <div>  {{ $datashow->links() }} </div>
+                                   <i id="addplush" class="fa fa-plus-circle"> </i> បន្ថែមអ្នកប្រើប្រាស់</button></a>
+                </span>
             </div>
-        </div>
-    </div>
-</div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th width="70px">លេខរៀង</th>
+                  <th >ឈ្មោះអ្នកប្រើប្រាស់</th>
+				   <th >អ៊ីម៉ែល</th>
+                  <th width="100px">ថ្ងៃបង្កើត</th>
+                  <th width="120px">សកម្មភាព</th>
+                </tr>
+                </thead>
+                <tbody>
+				<?php $i =1; ?>
+				<?php foreach($datashow as $datas){ ?>
+				<tr>
+				  <td style="text-align: center;" ><?php echo $i++; ?></td>
+                  <td><?php echo $datas->username; ?></td> 
+				  <td><?php echo $datas->email; ?></td>
+				  <td><?php echo $datas->created_at; ?></td>
+                  <td>
+                    <a style="font-family: Khmer OS Battambang,Khmer UI;"​ href="<?php echo url('admin/user');?>/<?php echo $datas->id; ?>" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>កែប្រែ </a>
+				  </td>
+                </tr>
+				<?php }?>
+				</tbody>
+			 </table>
+		    </div>
+		</div>
+	</div>
+</section>
 @endsection

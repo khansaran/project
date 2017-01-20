@@ -22,9 +22,9 @@
                     </div>
                 @endif
 				<span style="float:right;margin-bottom: 10px;">
-                           <a href="{{ url('/admin/imageproduct/add') }}">
-                               <button class="btn btn-warning" type="button" name="save"  value="3">
-                                   <i id="addplush" class="fa fa-plus-circle"> </i> បន្ថែមមរូបភាពផលិតផល</button></a>
+                    <a href="{{ url('/admin/imageproduct/add') }}">
+                    <button class="btn btn-warning" type="button" name="save"  value="3">
+                    <i id="addplush" class="fa fa-plus-circle"> </i> បន្ថែមមរូបភាពផលិតផល</button></a>
                 </span>
             </div>
             <!-- /.box-header -->
@@ -33,9 +33,10 @@
                 <thead>
                 <tr>
                   <th width="70px">លេខរៀង</th>
-                  <th >ឈ្មោះ រូបភាពផលិតផល</th>
+                  <th >ផលិតផល</th>
 				  <th >ឈ្មោះម៉ឺនុយ</th>
-				  <th >ឈ្មោះម៉ាកផលិតផល</th>
+				  <th >ម៉ាកផលិតផល</th>
+				  <th >តម្លៃ​</th>
 				  <th >រូបភាព</th>
 				  <th style="text-align:center;">ស្ថានភាព</th>
                   <th width="120px">សកម្មភាព</th>
@@ -47,9 +48,10 @@
 				<tr>
                   <td style="text-align: center;" ><?php echo $i++; ?></td>
                   <td><a href="<?php echo url('admin/imageproduct');?>/<?php echo $datas->brand_id; ?>">  <?php echo $datas->title; ?> </a> </td>
-				  <td><?php echo $datas->cat_id; ?> </td>
-                  <td><?php echo $datas->brand_id; ?> </td>
-				  <td><img width="100px" src="{{Url('/')}}/admin/kcfinder/upload/images/<?php echo $datas->image; ?>" /> </td>
+				  <td><?php echo $datas->name_kh; ?> </td>
+                  <td><?php echo $datas->name; ?> </td>
+				  <td><span style="color:red;"><?php echo $datas->price; ?> $ </span></td>
+				  <td><img width="50px" src="{{Url('/')}}/admin/kcfinder/upload/images/<?php echo $datas->image; ?>" /> </td>
 				  <td style="text-align: center;"><?php if($datas->status==1){ echo '<button class="btn btn-primary btn-xs"><i class="fa fa-check "> </i> ប្រើប្រាស់  </button>';} 
 				  else{ echo '<button class="btn btn-danger btn-xs"><i class="fa fa-times btn-xs"> </i> មិនប្រើប្រាស់​  </button> '; } ?></td>
                   <td>

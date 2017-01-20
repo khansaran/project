@@ -165,23 +165,25 @@
 
                             <div class="col-md-8">
                                 <!--<input id="text" type="text" class="form-control" name="image_tag" value="{{ old('image_tag') }}"> -->
-								<select id="image_tag" name="image_tag" class="form-control select2" multiple="multiple" data-placeholder="ជ្រើសរើសការសំគាល់" style="width: 100%;">
+								<select id="image_tag" name="image_tageedit[]" class="form-control select2" multiple="multiple" data-placeholder="ជ្រើសរើសការសំគាល់" style="width: 100%;">
 								  <?php foreach($idimageidtag as $idimgidtag){
 									  if($idimgidtag->image_id == $editdata->id){
 										  foreach( $dataimagetag as $imagetag){
 											  if($imagetag->id == $idimgidtag->tag_id){
 												  $selected = " selected='selected'"; 
+												  ?>
+												<option <?php echo $selected; ?> value="<?php echo $imagetag->id; ?>"><?php echo $imagetag->name ?></option>  
+											<?php	  
 											  }
 											  else{
 													$selected = ""; 
+											?>
+												<option <?php echo $selected; ?> value="<?php echo $imagetag->id; ?>"><?php echo $imagetag->name ?></option>
+											<?php
 											} 
 										  }
 									  }
 								  } 
-								  ?>
-								  <?php foreach($dataimagetag as $tags){ ?>
-									<option <?php echo $selected; ?> value="<?php echo $tags->id; ?>"><?php echo $tags->name ?></option>
-								  <?php } ?>
 								  ?>
 								</select>
 								<button class="btn btn-primary"​ style="position: absolute; margin-top: -32px; padding: 8px 11px;right: -18px;" type="button" data-toggle="modal" data-target="#MyTagImage"> 
@@ -244,16 +246,17 @@
 										<?php	}	 
 											}
 										?>
-											<div class="clearfix"></div> 
-										</div>
+													<div class="clearfix"></div> 
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
-								<input id="file-5" class="file" type="file" name="multiple_image[]" multiple data-preview-file-type="any" data-upload-url="#">
+								<input id="file-5" class="file" type="file" name="multiple_imageedit[]" multiple data-preview-file-type="any" data-upload-url="#">
                                 @if($errors->has('ordering'))
                                         <span style="color:red">{!!$errors->first('ordering')!!} </span>
                                 @endif
-                            </div>
+							</div>
                         </div>
 						<div style="clear:both;"></div>	
                         <div style="margin-top: 30px;" class="form-group col-md-12 {{ $errors->has('description') ? ' has-error' : '' }}">
