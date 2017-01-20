@@ -32,7 +32,13 @@ class ImageProductController extends Controller
     }
     public function getData()
     {
-	$model = DB::table('table_image_products')->where('trush',0)->get();
+	$model =  DB::select('
+		SELECT tip.*,tca.`name_kh`,tbr.`name` FROM 
+		`table_image_products` AS tip,
+		`table_cats` AS tca,
+		`table_brands` AS tbr
+		WHERE tip.`cat_id`= tca.`cat_id` AND tip.`brand_id` = tbr.`brand_id`
+		');
 	return view('admin.imageproducts.index')->with('datashow',$model);
     }
     public function addData(Request $data)
@@ -57,7 +63,7 @@ class ImageProductController extends Controller
 				$image = $data->file('one_image');
 				$image_multi = $data->file('multiple_image');
 				$image_tag = $data->Input('image_tag');
-				//print_r($image_tag);exit;
+				//print_r($image_multi);exit;
 				$upload = 'admin/kcfinder/upload/images';
 				 if($image != ""){
 					$filename = $image->getClientOriginalName();
@@ -79,6 +85,7 @@ class ImageProductController extends Controller
 				$get_id = $get_ids;
 				if($data->Input('save') == 2){
 					if($image_multi != ""){
+						//print_r($image_multi);exit;
 						foreach($image_multi as $multi_file){
 							$filemultiname = $multi_file->getClientOriginalName();
 							$multi_file->move($upload,$filemultiname);
@@ -93,7 +100,7 @@ class ImageProductController extends Controller
 						$table_image->insert(
 							['name' => $filename,
 							'proimage_id' => $get_id,
-							'descrption' => $filemultiname, 
+							'descrption' => $filename, 
 							'status'=>$data->Input('status')]
 						);
 					}
@@ -162,48 +169,124 @@ class ImageProductController extends Controller
     public function updateData(Request $data, $id){
         DB::beginTransaction();
 		try {
+			
 			$table_image = new TableImage;
 			$table_image_tag = new TableIdTagIdImage;
 		    $table = new TableImageProduct ;
 			$table_tag = new TableTagImage;
-			
-			$table->where('id', $id)->update([
-				['title' => $data->Input('name'), 
-				'cat_id' => $data->Input('cat_id'), 
-				'brand_id' => $data->Input('brand_id'), 
-				'image' => $filename, 
-				'description' => $data->Input('description'), 
-				'price' => $data->Input('price'), 
-				'ordering' => 1, 
-				'trush' => 0,
-				'status'=>$data->Input('status')]
-			);
+			$image = $data->file('one_image');
+			$image_multi = $data->file('multiple_imageedit');
+		    $image_tag = $data->Input('image_tageedit');
+			$upload = 'admin/kcfinder/upload/images';
+			//print_r($data->Input());exit;
+			if($data->Input('save') == 2){
+				//print_r($image);exit;
+				if($image !=""){						
+					$filename = $image->getClientOriginalName();
+					$success = $image->move($upload,$filename);	
+				}else{
+					$tableimage = DB::table('table_image_products')->where('id',$id)->get();				
+					foreach($tableimage as $editimages){
+						//print_r($editimages->image); exit;
+						$filename = $editimages->image;
+					}
+				}
+				$table->where('id', $id)->update([
+					'title' => $data->Input('name'), 
+					'cat_id' => $data->Input('cat_id'), 
+					'brand_id' => $data->Input('brand_id'), 
+					'image' => $filename, 
+					'description' => $data->Input('description'), 
+					'price' => $data->Input('price'), 
+					'ordering' => 1, 
+					'trush' => 0,
+					'status'=>$data->Input('status')]
+				);
+				//print_r($image_tag);exit;
+				if($image_tag != ""){
+					DB::table('table_id_tag_id_images')->where('image_id', $id)->delete();
+					foreach($image_tag as $image_tags){
+						//print_r($image_tags);exit;
+						$table_image_tag->insert([
+						'tag_id' => $image_tags,
+						'image_id' => $id]
+						);
+					}
+				}
+				//print_r($image_multi);
+				if($image_multi[0] !=""){
+					//print_r($image_multi);
+					foreach($image_multi as $multi_file){
+						$uploads = 'admin/kcfinder/upload/images';
+						$filemultiname = $multi_file->getClientOriginalName();
+						$multi_file->move($uploads,$filemultiname);
+						DB::table('table_images')->insert([
+						'name' => $filemultiname,
+						'proimage_id' => $id,
+						'descrption' => $filemultiname, 
+						'status'=>$data->Input('status')]
+						);
+					}
+				}	
+			}
+			//print_r($data->Input());exit;
+			if($data->Input('save') == 3){
+				if($image !=""){						
+					$filename = $image->getClientOriginalName();
+					$success = $image->move($upload,$filename);	
+				}else{
+					$tableimage = DB::table('table_image_products')->where('id',$id)->get();				
+					foreach($tableimage as $editimages){
+						//print_r($editimages->image); exit;
+						$filename = $editimages->image;
+					}
+				}
+				$table->where('id', $id)->update([
+					'title' => $data->Input('name'), 
+					'cat_id' => $data->Input('cat_id'), 
+					'brand_id' => $data->Input('brand_id'), 
+					'image' => $filename, 
+					'description' => $data->Input('description'), 
+					'price' => $data->Input('price'), 
+					'ordering' => 1, 
+					'trush' => 0,
+					'status'=>$data->Input('status')]
+				);
+				//print_r($image_tag);exit;
+				if($image_tag != ""){
+					DB::table('table_id_tag_id_images')->where('image_id', $id)->delete();
+					foreach($image_tag as $image_tags){
+						//print_r($image_tags);exit;
+						$table_image_tag->insert([
+						'tag_id' => $image_tags,
+						'image_id' => $id]
+						);
+					}
+				}
+				//print_r($image_multi);
+				if($image_multi[0] !=""){
+					//print_r($image_multi);
+					foreach($image_multi as $multi_file){
+						$uploads = 'admin/kcfinder/upload/images';
+						$filemultiname = $multi_file->getClientOriginalName();
+						$multi_file->move($uploads,$filemultiname);
+						DB::table('table_images')->insert([
+						'name' => $filemultiname,
+						'proimage_id' => $id,
+						'descrption' => $filemultiname, 
+						'status'=>$data->Input('status')]
+						);
+					}
+				}
+			}
 			
 		DB::commit();
-		return Redirect::to('/admin/imageproduct')->with('message','ទិន្នន័យបានបញ្ចូលមិនបានជោកជ័យ !');
+		return Redirect::to('/admin/imageproduct')->with('message','ទិន្នន័យបានកែប្រែជោកជ័យ !');
 		} catch (\Exception $e) {
+			 return false;
 			DB::rollback();
-			return Redirect::to('/admin/imageproduct')->with('message','ទិន្នន័យបានបញ្ចូលមិនបានជោកជ័យ !');
+			return Redirect::to('/admin/imageproduct')->with('message','ទិន្នន័យបានកែប្រែមិនជោកជ័យ !');
 		}
-	if($data->Input('save') == 2){
-		DB::table('table_brands')->where('brand_id', $id)->update([
-		'user_id' => $user,
-		'name' => $data->Input('name'),
-		'ordering' => $data->Input('ordering'),
-		'status' => $data->Input('status'),        
-		]);			
-	return Redirect::to('/admin/imageproduct')->with('message','ទិន្នន័យបានបញ្ចូលហើយកែប្រែបានជោកជ័យ');
-	}elseif($data->Input('save') == 3){
-	DB::table('table_brands')->where('brand_id', $id)->update([
-	'user_id' => $user,
-	'name' => $data->Input('name'),
-    'ordering' => $data->Input('ordering'),
-    'status' => $data->Input('status'),  
-	]);
-            return Redirect::to('/admin/imageproduct/add')->with('message','ទិន្នន័យបានបញ្ចូលហើយកែប្រែបានជោកជ័យ');
-	}else{
-        return Redirect::to('/admin/imageproduct')->with('message','ទិន្នន័យបានបញ្ចូលហើយកែប្រែមិនបានជោកជ័យ');
-	}
     }
     public function getDelete($id){
         DB::table('table_brands')->where('imageproduct', $id)->update(['trush' => 1, ]);
@@ -298,11 +381,12 @@ class ImageProductController extends Controller
 		$id = $data->input('image_idshow');
 		//echo $id;exit(0);
 		DB::table('table_image_products')->where('id', $id)->update(['image' => ""]);
-		 //return $id;
+		//return $id;
 	}
 	public function DelectMulti(Request $data){
+		$id = $data->input('image_idshow');
 		$id = $data->input('image_multi');
 		DB::table('table_images')->where('id', $id)->delete();
-		 return response()->json(['id'=>$id]);
+		return response()->json(['id'=>$id]);
 	}
 }

@@ -4,7 +4,18 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/', function(){
             return view('home');
         }); 
+	Route::get('/', 'HomeController@index');
 	Route::get('language/{lang}', 'HomeController@language')->where('lang', '[A-Za-z_-]+');
+	//////////////////////Search Home Page ////////////////////////////////
+	Route::post('/', 'HomeController@index');
+	Route::get('/id/{id}', 'HomeController@index');
+	Route::get('/searchdata', 'HomeController@index');
+	Route::get('/searccat/',function($id){
+		echo $id; exit;
+	});
+	Route::post('/search', 'HomeController@FrmSearchHome');
+	Route::get('/searchhome', 'HomeController@SearchAuto');
+	Route::get('/detail/id/{id}', 'HomeController@DetialData');
 	// Admin
 	Route::get('admin', [
 		'uses' => 'AdminController@adminpingit',
@@ -32,7 +43,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('loginadmin', function () {
             return redirect('auth/login');
         });        
-        Route::get('auth/login', 'Auth\AuthController@getLogin');
+     Route::get('auth/login', 'Auth\AuthController@getLogin');
 	Route::post('auth/login', 'Auth\AuthController@postLogin');
 	Route::get('auth/logout', 'Auth\AuthController@getLogout');
 	Route::get('auth/confirm/{token}', 'Auth\AuthController@getConfirm');
@@ -64,7 +75,7 @@ Route::group(['middleware' => ['web']], function () {
       
         //////////////////////////////////// User ////////////////////////////
         Route::get('admin/user/add', 'AdminController@FormAdd')->middleware('admin');
-        Route::get('admin/user', 'AdminController@getData')->middleware('admin');
+        Route::get('admin/user', 'UserShowController@getData')->middleware('admin');
         Route::post('admin/user/insert', 'AdminController@addData')->middleware('admin');
         Route::get('admin/user/{id}', 'AdminController@getEdit')->middleware('admin');
         Route::get('admin/user/delete/{id}', 'AdminController@getDelete')->middleware('admin');

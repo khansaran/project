@@ -65,7 +65,15 @@ class AdminController extends Controller {
             return view('admin.index');
         }
         public function ViewAdmin(){
-            return view('admin.index');
+            $model =  DB::select('
+			SELECT tip.*,tca.`name_kh`,tbr.`name` FROM 
+			`table_image_products` AS tip,
+			`table_cats` AS tca,
+			`table_brands` AS tbr
+			WHERE tip.`cat_id`= tca.`cat_id` AND tip.`brand_id` = tbr.`brand_id` ORDER BY id DESC LIMIT 7
+			');
+			//print_r($model);exit;
+			return view('admin.index')->with('datashow',$model);
         }
         
     ///////////////////////////////////User ////////////////////////////////////    
